@@ -1,23 +1,24 @@
 import { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { fetcher } from './utils/fetcher';
-import { URLHandler } from './utils/consts';
+import { ClubsResponse, DepartmentsResponse, fetcher, URLHandler } from './utils';
 
 function App() {
+  // TODO: pass departments to Form
   const [departments, setDepartments] = useState<string[]>([]);
 
+  // TODO: pass scienceClubs to Form
   const [scienceClubs, setScienceClubs] = useState<string[]>([]);
 
   useEffect(() => {
     const getDepartments = async () => {
-      const departments = await fetcher(URLHandler.getDepartmentsUrl);
-      setDepartments(departments);
+      const departmentsResponse = await fetcher<DepartmentsResponse>(URLHandler.getDepartmentsUrl);
+      setDepartments(departmentsResponse.departments);
     };
 
     const getScienceClubs = async () => {
-      const scienceClubs = await fetcher(URLHandler.getClubsUrl);
-      setScienceClubs(scienceClubs);
+      const scienceClubsResponse = await fetcher<ClubsResponse>(URLHandler.getClubsUrl);
+      setScienceClubs(scienceClubsResponse.clubs);
     };
 
     getDepartments().catch((err) => console.log(err));

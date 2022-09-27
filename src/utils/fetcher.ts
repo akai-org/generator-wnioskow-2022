@@ -2,7 +2,10 @@ export interface FetcherRequestInit extends Omit<RequestInit, 'body'> {
   body?: object | string | number | boolean;
 }
 
-export async function fetcher(url: string, customConfiguration = {} as FetcherRequestInit) {
+export async function fetcher<T = object>(
+  url: string,
+  customConfiguration = {} as FetcherRequestInit,
+) {
   const headers = { 'Content-Type': 'application/json' };
   const configuration: RequestInit = {
     method: customConfiguration.body ? 'POST' : 'GET',
@@ -14,7 +17,7 @@ export async function fetcher(url: string, customConfiguration = {} as FetcherRe
   const response = await fetch(url, configuration);
 
   if (response.ok) {
-    return await response.json();
+    return (await response.json()) as T;
   } else {
     const errorMessage = await response.text();
     throw new Error(errorMessage);
