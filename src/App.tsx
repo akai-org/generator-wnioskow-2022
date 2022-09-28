@@ -1,8 +1,30 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { ClubsResponse, DepartmentsResponse, fetcher, URLHandler } from './utils';
 
 function App() {
+  // TODO: pass departments to Form
+  const [departments, setDepartments] = useState<string[]>([]);
+
+  // TODO: pass scienceClubs to Form
+  const [scienceClubs, setScienceClubs] = useState<string[]>([]);
+
+  useEffect(() => {
+    const getDepartments = async () => {
+      const departmentsResponse = await fetcher<DepartmentsResponse>(URLHandler.getDepartmentsUrl);
+      setDepartments(departmentsResponse.departments);
+    };
+
+    const getScienceClubs = async () => {
+      const scienceClubsResponse = await fetcher<ClubsResponse>(URLHandler.getClubsUrl);
+      setScienceClubs(scienceClubsResponse.clubs);
+    };
+
+    getDepartments().catch((err) => console.log(err));
+    getScienceClubs().catch((err) => console.log(err));
+  }, []);
+
   return (
     <div className='App'>
       <header className='App-header'>
