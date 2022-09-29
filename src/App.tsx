@@ -4,10 +4,7 @@ import { ClubsResponse, DepartmentsResponse, fetcher, URLHandler } from './utils
 import { Form } from './components/Form/Form';
 
 function App() {
-  // TODO: pass departments to Form
   const [departments, setDepartments] = useState<string[]>([]);
-
-  // TODO: pass scienceClubs to Form
   const [scienceClubs, setScienceClubs] = useState<string[]>([]);
 
   useEffect(() => {
