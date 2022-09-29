@@ -6,6 +6,8 @@ interface Props {
   scienceClubs: string[];
 }
 
+const years = ['2021/2022', '2022/2023', '2023/2024', '2024/2025'];
+
 export const Form = ({ departments, scienceClubs }: Props) => {
   return (
     <div className={styles.formBox}>
@@ -36,6 +38,14 @@ export const Form = ({ departments, scienceClubs }: Props) => {
           <GeneralInput label='Funkcja w kole:'>
             <FieldInput />
           </GeneralInput>
+          <div className={styles.selectBox}>
+            <GeneralInput label='Rok:'>
+              <FieldSelect options={years} />
+            </GeneralInput>
+            <GeneralInput label='Semestr:'>
+              <FieldSelect options={['zimowy', 'letni']} />
+            </GeneralInput>
+          </div>
         </section>
       </form>
     </div>
