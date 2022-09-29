@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from '../Form.module.scss';
 
 interface SelectProps {
   options: string[];
@@ -6,7 +7,7 @@ interface SelectProps {
 
 export function FieldSelect({ options }: SelectProps) {
   return (
-    <select>
+    <select className={styles.genericInput}>
       {options.map((option) => (
         <option key={option} value={option}>
           {option}

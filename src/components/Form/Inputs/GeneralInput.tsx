@@ -10,7 +10,7 @@ export const GeneralInput: FC<GeneralInputComponentProps> = ({ children, label }
   return (
     <div className={styles.field}>
       <label>{label}</label>
-      <div>{children}</div>
+      <div className={styles.inputBox}>{children}</div>
     </div>
   );
 };

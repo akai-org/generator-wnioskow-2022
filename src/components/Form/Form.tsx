@@ -8,8 +8,9 @@ interface Props {
 
 export const Form = ({ departments, scienceClubs }: Props) => {
   return (
-    <div className={styles.form}>
-      <form style={{ backgroundColor: '#EEEEEE', width: '800px' }}>
+    <div className={styles.formBox}>
+      <form>
+        <section className={styles.formSection}>
         <h2 className={styles.header}>Dane koła</h2>
         <GeneralInput label='Przewodniczący koła naukowego: '>
           <FieldInput inputType='text' />
@@ -23,6 +24,8 @@ export const Form = ({ departments, scienceClubs }: Props) => {
         <GeneralInput label='Opiekun koła (wraz z tytułem/tytułami):'>
           <FieldInput inputType='text' />
         </GeneralInput>
+        </section>
+        <section className={styles.formSection}>
         <h2 className={styles.header}>Dane indywidualne</h2>
         <GeneralInput label='Imię i nazwisko: '>
           <FieldInput inputType='text' />
@@ -33,6 +36,7 @@ export const Form = ({ departments, scienceClubs }: Props) => {
         <GeneralInput label='Funkcja w kole'>
           <FieldInput inputType='text' />
         </GeneralInput>
+        </section>
       </form>
     </div>
   );
