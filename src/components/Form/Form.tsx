@@ -1,4 +1,5 @@
 import { FieldInput, FieldSelect, GeneralInput } from './Inputs';
+import styles from './Form.module.scss';
 
 interface Props {
   departments: string[];
@@ -7,9 +8,9 @@ interface Props {
 
 export const Form = ({ departments, scienceClubs }: Props) => {
   return (
-    <div>
+    <div className={styles.form}>
       <form style={{ backgroundColor: '#EEEEEE', width: '800px' }}>
-        <h2>Dane koła</h2>
+        <h2 className={styles.header}>Dane koła</h2>
         <GeneralInput label='Przewodniczący koła naukowego: '>
           <FieldInput inputType='text' />
         </GeneralInput>
@@ -22,7 +23,7 @@ export const Form = ({ departments, scienceClubs }: Props) => {
         <GeneralInput label='Opiekun koła (wraz z tytułem/tytułami):'>
           <FieldInput inputType='text' />
         </GeneralInput>
-        <h2>Dane indywidualne</h2>
+        <h2 className={styles.header}>Dane indywidualne</h2>
         <GeneralInput label='Imię i nazwisko: '>
           <FieldInput inputType='text' />
         </GeneralInput>

@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import styles from '../Form.module.scss';
 
 interface GeneralInputComponentProps {
   children: JSX.Element;
@@ -7,7 +8,7 @@ interface GeneralInputComponentProps {
 
 export const GeneralInput: FC<GeneralInputComponentProps> = ({ children, label }) => {
   return (
-    <div className='field'>
+    <div className={styles.field}>
       <label>{label}</label>
       <div>{children}</div>
     </div>
