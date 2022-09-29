@@ -1,6 +1,11 @@
 import { FieldInput, FieldSelect, GeneralInput } from './Inputs';
 
-export const Form = () => {
+interface Props {
+  departments: string[];
+  scienceClubs: string[];
+}
+
+export const Form = ({ departments, scienceClubs }: Props) => {
   return (
     <div>
       <form style={{ backgroundColor: '#EEEEEE', width: '800px' }}>
@@ -9,10 +14,10 @@ export const Form = () => {
           <FieldInput inputType='text' />
         </GeneralInput>
         <GeneralInput label='Nazwa koła naukowego: '>
-          <FieldSelect options={[]} />
+          <FieldSelect options={scienceClubs} />
         </GeneralInput>
         <GeneralInput label='Nazwa wydziału:'>
-          <FieldSelect options={[]} />
+          <FieldSelect options={departments} />
         </GeneralInput>
         <GeneralInput label='Opiekun koła (wraz z tytułem/tytułami):'>
           <FieldInput inputType='text' />

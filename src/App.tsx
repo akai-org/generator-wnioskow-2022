@@ -27,7 +27,7 @@ function App() {
 
   return (
     <div className='App'>
-      <Form />
+      <Form departments={departments} scienceClubs={scienceClubs} />
     </div>
   );
 }
