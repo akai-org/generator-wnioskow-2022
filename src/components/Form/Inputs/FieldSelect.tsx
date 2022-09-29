@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 interface SelectProps {
   options: string[];
 }
 
-export function FieldSelect({ options }: SelectProps) {
+export const FieldSelect = forwardRef<HTMLSelectElement, SelectProps>(function FieldSelect(
+  { options },
+  ref,
+) {
   return (
-    <select>
+    <select ref={ref}>
       {options.map((option) => (
         <option key={option} value={option}>
           {option}
@@ -14,4 +17,4 @@ export function FieldSelect({ options }: SelectProps) {
       ))}
     </select>
   );
-}
+});
