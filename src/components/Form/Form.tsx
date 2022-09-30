@@ -41,7 +41,7 @@ export const Form = ({ departments, scienceClubs }: Props) => {
   };
 
   return (
-    <div>
+    <div className={styles.formBox}>
       <form onSubmit={handleSubmit(onHandleSubmit)}>
         <section className={styles.formSection}>
           <h2 className={styles.header}>Dane koła</h2>
