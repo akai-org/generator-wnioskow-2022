@@ -55,8 +55,8 @@ export const Form = ({ departments, scienceClubs }: Props) => {
             <FieldSelect {...register('department')} options={departments} />
           </GeneralInput>
           <GeneralInput
-              error={errors.clubPatron?.message}
-              label='Opiekun koła (wraz z tytułem/tytułami):'
+            error={errors.clubPatron?.message}
+            label='Opiekun koła (wraz z tytułem/tytułami):'
           >
             <FieldInput {...register('clubPatron')} />
           </GeneralInput>
