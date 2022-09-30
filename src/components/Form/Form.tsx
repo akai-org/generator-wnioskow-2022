@@ -3,25 +3,46 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import styles from './Form.module.scss';
+import {
+  CLUB_PATRON_ERROR,
+  DEPARTMENT_ERROR,
+  FULL_NAME_ERROR,
+  INDEX_NUMBER_ERROR,
+  LEADER_NAME_ERROR,
+  PERIOD_ERROR,
+  ROLE_ERROR,
+  SCIENCE_CLUB_ERROR,
+  SUMMER_PERIOD,
+  WINTER_PERIOD,
+} from 'utils';
 
 interface Props {
   departments: string[];
   scienceClubs: string[];
 }
 
-const schema = z
-  .object({
-    leaderName: z
-      .string({ required_error: '' })
-      .min(1, 'Imię i nazwisko przewodniczącego koła są wymagane'),
-    scienceClub: z.string().min(1, 'Nazwa klubu naukowego jest wymagana'),
-    department: z.string().min(1, 'Nazwa wydziału jest wymagana'),
-    clubPatron: z.string().min(1, 'Imię i nazwisko opiekuna klubu jest wymagane'),
-    fullName: z.string().min(1, 'Imię i nazwisko jest wymagane'),
-    index: z.string().min(1, 'Numer albumu jest wymagany'),
-    role: z.string().min(1, 'Funkcja pełniona w kole jest wymagana'),
-  })
-  .required();
+const schema = z.object({
+  leaderName: z.string().min(1, LEADER_NAME_ERROR),
+  scienceClub: z
+    .string()
+    .min(1, SCIENCE_CLUB_ERROR)
+    .refine((value) => value !== 'default', { message: SCIENCE_CLUB_ERROR }),
+  department: z
+    .string()
+    .min(1, DEPARTMENT_ERROR)
+    .refine((value) => value !== 'default', { message: DEPARTMENT_ERROR }),
+  clubPatron: z.string().min(1, CLUB_PATRON_ERROR),
+  fullName: z.string().min(1, FULL_NAME_ERROR),
+  indexNumber: z.string().min(1, INDEX_NUMBER_ERROR),
+  role: z.string().min(1, ROLE_ERROR),
+  period: z
+    .string()
+    .min(1, PERIOD_ERROR)
+    .refine(
+      (period) => period === WINTER_PERIOD || period === SUMMER_PERIOD,
+      "Semestr musi mieć wartość: 'zimowy' lub 'letni'",
+    ),
+});
 
 export type SchemaType = z.TypeOf<typeof schema>;
 
@@ -34,6 +55,7 @@ export const Form = ({ departments, scienceClubs }: Props) => {
     formState: { errors },
   } = useForm<SchemaType>({
     resolver: zodResolver(schema),
+    mode: 'onBlur',
   });
 
   const onHandleSubmit: SubmitHandler<SchemaType> = async (data) => {
@@ -45,16 +67,33 @@ export const Form = ({ departments, scienceClubs }: Props) => {
       <form onSubmit={handleSubmit(onHandleSubmit)}>
         <section className={styles.formSection}>
           <h2 className={styles.header}>Dane koła</h2>
-          <GeneralInput error={errors.leaderName?.message} label='Przewodniczący koła naukowego: '>
+          <GeneralInput
+            errorMessage={LEADER_NAME_ERROR}
+            error={errors.leaderName?.message}
+            label='Przewodniczący koła naukowego: '
+          >
             <FieldInput {...register('leaderName')} />
           </GeneralInput>
-          <GeneralInput error={errors.scienceClub?.message} label='Nazwa koła naukowego: '>
-            <FieldSelect {...register('scienceClub')} options={scienceClubs} />
-          </GeneralInput>
-          <GeneralInput error={errors.department?.message} label='Nazwa wydziału:'>
-            <FieldSelect {...register('department')} options={departments} />
+          <GeneralInput
+            errorMessage={SCIENCE_CLUB_ERROR}
+            error={errors.scienceClub?.message}
+            label='Nazwa koła naukowego: '
+          >
+            <FieldSelect
+              defaultValue='default'
+              {...register('scienceClub')}
+              options={scienceClubs}
+            />
           </GeneralInput>
           <GeneralInput
+            errorMessage={DEPARTMENT_ERROR}
+            error={errors.department?.message}
+            label='Nazwa wydziału:'
+          >
+            <FieldSelect defaultValue='default' {...register('department')} options={departments} />
+          </GeneralInput>
+          <GeneralInput
+            errorMessage={CLUB_PATRON_ERROR}
             error={errors.clubPatron?.message}
             label='Opiekun koła (wraz z tytułem/tytułami):'
           >
@@ -63,13 +102,25 @@ export const Form = ({ departments, scienceClubs }: Props) => {
         </section>
         <section className={styles.formSection}>
           <h2 className={styles.header}>Dane indywidualne</h2>
-          <GeneralInput error={errors.fullName?.message} label='Imię i nazwisko: '>
+          <GeneralInput
+            errorMessage={FULL_NAME_ERROR}
+            error={errors.fullName?.message}
+            label='Imię i nazwisko: '
+          >
             <FieldInput {...register('fullName')} />
           </GeneralInput>
-          <GeneralInput error={errors.index?.message} label='Indeks'>
-            <FieldInput {...register('index')} />
+          <GeneralInput
+            errorMessage={INDEX_NUMBER_ERROR}
+            error={errors.indexNumber?.message}
+            label='Indeks'
+          >
+            <FieldInput {...register('indexNumber')} />
           </GeneralInput>
-          <GeneralInput error={errors.role?.message} label='Funkcja w kole'>
+          <GeneralInput
+            errorMessage={ROLE_ERROR}
+            error={errors.role?.message}
+            label='Funkcja w kole'
+          >
             <FieldInput {...register('role')} />
           </GeneralInput>
           <div className={styles.selectBox}>
@@ -77,7 +128,7 @@ export const Form = ({ departments, scienceClubs }: Props) => {
               <FieldSelect options={years} />
             </GeneralInput>
             <GeneralInput label='Semestr:'>
-              <FieldSelect options={['zimowy', 'letni']} />
+              <FieldSelect options={[WINTER_PERIOD, SUMMER_PERIOD]} />
             </GeneralInput>
           </div>
         </section>
