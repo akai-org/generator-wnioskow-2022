@@ -1,3 +1,4 @@
+import styles from '../Form.module.scss';
 import React, { forwardRef } from 'react';
 
 interface SelectProps {
@@ -9,7 +10,7 @@ export const FieldSelect = forwardRef<HTMLSelectElement, SelectProps>(function F
   ref,
 ) {
   return (
-    <select ref={ref}>
+    <select ref={ref} className={styles.genericInput}>
       {options.map((option) => (
         <option key={option} value={option}>
           {option}

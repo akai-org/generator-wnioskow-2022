@@ -1,16 +1,17 @@
 import React, { FC } from 'react';
+import styles from '../Form.module.scss';
 
 interface GeneralInputComponentProps {
-  children: JSX.Element | JSX.Element[] | string | string[] | undefined;
+  children: JSX.Element;
   label: string;
   error?: string;
 }
 
 export const GeneralInput: FC<GeneralInputComponentProps> = ({ children, label, error }) => {
   return (
-    <div className='field'>
+    <div className={styles.field}>
       <label>{label}</label>
-      <div>{children}</div>
+      <div className={styles.inputBox}>{children}</div>
       <p>{error}</p>
     </div>
   );

@@ -2,12 +2,11 @@ import styles from '../Form.module.scss';
 import React, { ForwardedRef, forwardRef, HTMLProps } from 'react';
 
 interface Props extends HTMLProps<HTMLInputElement> {
-  inputType: string;
   isTextArea?: boolean;
 }
 
 export const FieldInput = forwardRef<HTMLInputElement | HTMLTextAreaElement, Props>(
-  function FieldInput({ inputType, isTextArea, ...rest }, ref) {
+  function FieldInput({ isTextArea, ...rest }, ref) {
     return isTextArea ? (
       <textarea
         ref={ref as ForwardedRef<HTMLTextAreaElement>}
@@ -17,8 +16,8 @@ export const FieldInput = forwardRef<HTMLInputElement | HTMLTextAreaElement, Pro
       <input
         ref={ref as ForwardedRef<HTMLInputElement>}
         {...(rest as HTMLProps<HTMLInputElement>)}
-        className={styles.input}
-        type={inputType}
+        className={styles.genericInput}
+        type='text'
       ></input>
     );
   },

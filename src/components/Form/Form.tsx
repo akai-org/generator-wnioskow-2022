@@ -2,6 +2,12 @@ import { FieldInput, FieldSelect, GeneralInput } from './Inputs';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import styles from './Form.module.scss';
+
+interface Props {
+  departments: string[];
+  scienceClubs: string[];
+}
 
 const schema = z
   .object({
@@ -19,7 +25,9 @@ const schema = z
 
 export type SchemaType = z.TypeOf<typeof schema>;
 
-export const Form = () => {
+const years = ['2021/2022', '2022/2023', '2023/2024', '2024/2025'];
+
+export const Form = ({ departments, scienceClubs }: Props) => {
   const {
     register,
     handleSubmit,
@@ -34,38 +42,47 @@ export const Form = () => {
 
   return (
     <div>
-      <form
-        onSubmit={handleSubmit(onHandleSubmit)}
-        style={{ backgroundColor: '#EEEEEE', width: '800px' }}
-      >
-        <h2>Dane koła</h2>
-        <GeneralInput error={errors.leaderName?.message} label='Przewodniczący koła naukowego: '>
-          <FieldInput {...register('leaderName')} inputType='text' />
-        </GeneralInput>
-        <GeneralInput error={errors.scienceClub?.message} label='Nazwa koła naukowego: '>
-          <FieldSelect {...register('scienceClub')} options={[]} />
-        </GeneralInput>
-        <GeneralInput error={errors.department?.message} label='Nazwa wydziału:'>
-          <FieldSelect {...register('department')} options={[]} />
-        </GeneralInput>
-        <GeneralInput
-          error={errors.clubPatron?.message}
-          label='Opiekun koła (wraz z tytułem/tytułami):'
-        >
-          <FieldInput {...register('clubPatron')} inputType='text' />
-        </GeneralInput>
-        <h2>Dane indywidualne</h2>
-        <GeneralInput error={errors.fullName?.message} label='Imię i nazwisko: '>
-          <FieldInput {...register('fullName')} inputType='text' />
-        </GeneralInput>
-        <GeneralInput error={errors.index?.message} label='Indeks'>
-          <FieldInput {...register('index')} inputType='text' />
-        </GeneralInput>
-        <GeneralInput error={errors.role?.message} label='Funkcja w kole'>
-          <FieldInput {...register('role')} inputType='text' />
-        </GeneralInput>
+      <form onSubmit={handleSubmit(onHandleSubmit)}>
+        <section className={styles.formSection}>
+          <h2 className={styles.header}>Dane koła</h2>
+          <GeneralInput error={errors.leaderName?.message} label='Przewodniczący koła naukowego: '>
+            <FieldInput {...register('leaderName')} />
+          </GeneralInput>
+          <GeneralInput error={errors.scienceClub?.message} label='Nazwa koła naukowego: '>
+            <FieldSelect {...register('scienceClub')} options={scienceClubs} />
+          </GeneralInput>
+          <GeneralInput error={errors.department?.message} label='Nazwa wydziału:'>
+            <FieldSelect {...register('department')} options={departments} />
+          </GeneralInput>
+          <GeneralInput
+              error={errors.clubPatron?.message}
+              label='Opiekun koła (wraz z tytułem/tytułami):'
+          >
+            <FieldInput {...register('clubPatron')} />
+          </GeneralInput>
+        </section>
+        <section className={styles.formSection}>
+          <h2 className={styles.header}>Dane indywidualne</h2>
+          <GeneralInput error={errors.fullName?.message} label='Imię i nazwisko: '>
+            <FieldInput {...register('fullName')} />
+          </GeneralInput>
+          <GeneralInput error={errors.index?.message} label='Indeks'>
+            <FieldInput {...register('index')} />
+          </GeneralInput>
+          <GeneralInput error={errors.role?.message} label='Funkcja w kole'>
+            <FieldInput {...register('role')} />
+          </GeneralInput>
+          <div className={styles.selectBox}>
+            <GeneralInput label='Rok:'>
+              <FieldSelect options={years} />
+            </GeneralInput>
+            <GeneralInput label='Semestr:'>
+              <FieldSelect options={['zimowy', 'letni']} />
+            </GeneralInput>
+          </div>
+        </section>
 
-        <input type='submit' />
+        <button type='submit'>Generuj wniosek</button>
       </form>
     </div>
   );
