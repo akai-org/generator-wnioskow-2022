@@ -1,13 +1,10 @@
 import { useEffect, useState } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { ClubsResponse, DepartmentsResponse, fetcher, URLHandler } from './utils';
+import { Form } from './components/Form/Form';
 
 function App() {
-  // TODO: pass departments to Form
   const [departments, setDepartments] = useState<string[]>([]);
-
-  // TODO: pass scienceClubs to Form
   const [scienceClubs, setScienceClubs] = useState<string[]>([]);
 
   useEffect(() => {
@@ -27,20 +24,7 @@ function App() {
 
   return (
     <div className='App'>
-      <header className='App-header'>
-        <img src={logo} className='App-logo' alt='logo' />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className='App-link'
-          href='https://reactjs.org'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          Learn React
-        </a>
-      </header>
+      <Form departments={departments} scienceClubs={scienceClubs} />
     </div>
   );
 }
