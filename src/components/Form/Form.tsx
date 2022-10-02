@@ -15,6 +15,7 @@ import {
   SUMMER_PERIOD,
   WINTER_PERIOD,
 } from 'utils';
+import { useEffect } from 'react';
 
 interface Props {
   departments: string[];
@@ -46,17 +47,47 @@ const schema = z.object({
 
 export type SchemaType = z.TypeOf<typeof schema>;
 
+type InputNames =
+  | 'leaderName'
+  | 'scienceClub'
+  | 'department'
+  | 'clubPatron'
+  | 'fullName'
+  | 'indexNumber'
+  | 'role';
+
 const years = ['2021/2022', '2022/2023', '2023/2024', '2024/2025'];
 
 export const Form = ({ departments, scienceClubs }: Props) => {
   const {
     register,
     handleSubmit,
+    watch,
+    setValue,
     formState: { errors },
   } = useForm<SchemaType>({
     resolver: zodResolver(schema),
     mode: 'onBlur',
   });
+
+  useEffect(() => {
+    console.log('setValue');
+    if (localStorage) {
+      const defaultValues = localStorage.getItem('defaultValues');
+      if (defaultValues) {
+        for (const [name, value] of Object.entries(JSON.parse(defaultValues))) {
+          setValue(name as InputNames, value as string);
+        }
+      }
+    }
+  }, [setValue]);
+
+  useEffect(() => {
+    const subscritption = watch((data) => {
+      localStorage && localStorage.setItem('defaultValues', JSON.stringify(data));
+    });
+    return () => subscritption.unsubscribe();
+  }, [watch]);
 
   const onHandleSubmit: SubmitHandler<SchemaType> = async (data) => {
     console.log(data.leaderName);
