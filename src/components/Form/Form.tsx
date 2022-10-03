@@ -58,6 +58,7 @@ export const Form = ({ departments, scienceClubs }: Props) => {
     register,
     handleSubmit,
     watch,
+    reset,
     setValue,
     formState: { errors },
   } = useForm<SchemaType>({
@@ -155,6 +156,15 @@ export const Form = ({ departments, scienceClubs }: Props) => {
           </div>
         </section>
 
+        <button
+          type='button'
+          onClick={() => {
+            reset();
+            removeSavedValues();
+          }}
+        >
+          Wyczyść formularz
+        </button>
         <button type='submit'>Generuj wniosek</button>
       </form>
     </div>
