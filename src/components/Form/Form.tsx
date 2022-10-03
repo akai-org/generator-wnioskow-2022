@@ -71,7 +71,7 @@ export const Form = ({ departments, scienceClubs }: Props) => {
       if (typeof value !== 'string') continue;
       setValue(name as InputNames, value);
     }
-  }, [setValue, defaultValues]);
+  }, []);
 
   useEffect(() => {
     const subscritption = watch((data) => {
