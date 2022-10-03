@@ -15,6 +15,8 @@ import {
   SUMMER_PERIOD,
   WINTER_PERIOD,
 } from 'utils';
+import { useEffect } from 'react';
+import { useLocalStorage } from 'react-use';
 
 interface Props {
   departments: string[];
@@ -46,17 +48,38 @@ const schema = z.object({
 
 export type SchemaType = z.TypeOf<typeof schema>;
 
+type InputNames = keyof SchemaType;
+
 const years = ['2021/2022', '2022/2023', '2023/2024', '2024/2025'];
 
 export const Form = ({ departments, scienceClubs }: Props) => {
+  const [savedValues, setSavedValues, removeSavedValues] = useLocalStorage('savedValues', {});
   const {
     register,
     handleSubmit,
+    watch,
+    reset,
+    setValue,
     formState: { errors },
   } = useForm<SchemaType>({
     resolver: zodResolver(schema),
     mode: 'onBlur',
   });
+
+  useEffect(() => {
+    if (savedValues === undefined) return;
+    for (const [name, value] of Object.entries(savedValues)) {
+      if (typeof value !== 'string') continue;
+      setValue(name as InputNames, value);
+    }
+  }, []);
+
+  useEffect(() => {
+    const subscritption = watch((data) => {
+      setSavedValues(data);
+    });
+    return () => subscritption.unsubscribe();
+  }, [watch, setSavedValues]);
 
   const onHandleSubmit: SubmitHandler<SchemaType> = async (data) => {
     console.log(data.leaderName);
@@ -133,6 +156,15 @@ export const Form = ({ departments, scienceClubs }: Props) => {
           </div>
         </section>
 
+        <button
+          type='button'
+          onClick={() => {
+            reset();
+            removeSavedValues();
+          }}
+        >
+          Wyczyść formularz
+        </button>
         <button type='submit'>Generuj wniosek</button>
       </form>
     </div>
