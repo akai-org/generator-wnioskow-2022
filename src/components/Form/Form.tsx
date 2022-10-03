@@ -16,6 +16,7 @@ import {
   WINTER_PERIOD,
 } from 'utils';
 import { useEffect } from 'react';
+import { useLocalStorage } from 'react-use';
 
 interface Props {
   departments: string[];
@@ -47,18 +48,15 @@ const schema = z.object({
 
 export type SchemaType = z.TypeOf<typeof schema>;
 
-type InputNames =
-  | 'leaderName'
-  | 'scienceClub'
-  | 'department'
-  | 'clubPatron'
-  | 'fullName'
-  | 'indexNumber'
-  | 'role';
+type InputNames = keyof SchemaType;
 
 const years = ['2021/2022', '2022/2023', '2023/2024', '2024/2025'];
 
 export const Form = ({ departments, scienceClubs }: Props) => {
+  const [defaultValues, setDefaultValues, removeDefaultValues] = useLocalStorage(
+    'defaultValues',
+    {},
+  );
   const {
     register,
     handleSubmit,
@@ -71,24 +69,19 @@ export const Form = ({ departments, scienceClubs }: Props) => {
   });
 
   useEffect(() => {
-    console.log('setValue');
-    if (localStorage) {
-      const defaultValues = localStorage.getItem('defaultValues');
-      if (defaultValues) {
-        for (const [name, value] of Object.entries(JSON.parse(defaultValues))) {
-          if (typeof value !== 'string') return;
-          setValue(name as InputNames, value);
-        }
-      }
+    if (defaultValues === undefined) return;
+    for (const [name, value] of Object.entries(defaultValues)) {
+      if (typeof value !== 'string') continue;
+      setValue(name as InputNames, value);
     }
-  }, [setValue]);
+  }, [setValue, defaultValues]);
 
   useEffect(() => {
     const subscritption = watch((data) => {
-      localStorage && localStorage.setItem('defaultValues', JSON.stringify(data));
+      setDefaultValues(data);
     });
     return () => subscritption.unsubscribe();
-  }, [watch]);
+  }, [watch, setDefaultValues]);
 
   const onHandleSubmit: SubmitHandler<SchemaType> = async (data) => {
     console.log(data.leaderName);
