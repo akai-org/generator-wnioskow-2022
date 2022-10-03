@@ -76,7 +76,8 @@ export const Form = ({ departments, scienceClubs }: Props) => {
       const defaultValues = localStorage.getItem('defaultValues');
       if (defaultValues) {
         for (const [name, value] of Object.entries(JSON.parse(defaultValues))) {
-          setValue(name as InputNames, value as string);
+          if (typeof value !== 'string') return;
+          setValue(name as InputNames, value);
         }
       }
     }
