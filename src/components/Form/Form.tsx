@@ -53,10 +53,7 @@ type InputNames = keyof SchemaType;
 const years = ['2021/2022', '2022/2023', '2023/2024', '2024/2025'];
 
 export const Form = ({ departments, scienceClubs }: Props) => {
-  const [defaultValues, setDefaultValues, removeDefaultValues] = useLocalStorage(
-    'defaultValues',
-    {},
-  );
+  const [savedValues, setSavedValues, removeSavedValues] = useLocalStorage('savedValues', {});
   const {
     register,
     handleSubmit,
@@ -69,8 +66,8 @@ export const Form = ({ departments, scienceClubs }: Props) => {
   });
 
   useEffect(() => {
-    if (defaultValues === undefined) return;
-    for (const [name, value] of Object.entries(defaultValues)) {
+    if (savedValues === undefined) return;
+    for (const [name, value] of Object.entries(savedValues)) {
       if (typeof value !== 'string') continue;
       setValue(name as InputNames, value);
     }
@@ -78,10 +75,10 @@ export const Form = ({ departments, scienceClubs }: Props) => {
 
   useEffect(() => {
     const subscritption = watch((data) => {
-      setDefaultValues(data);
+      setSavedValues(data);
     });
     return () => subscritption.unsubscribe();
-  }, [watch, setDefaultValues]);
+  }, [watch, setSavedValues]);
 
   const onHandleSubmit: SubmitHandler<SchemaType> = async (data) => {
     console.log(data.leaderName);
