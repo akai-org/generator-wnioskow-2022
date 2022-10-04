@@ -36,7 +36,7 @@ export type SchemaType = z.infer<typeof schema>;
 export type InputNames = keyof SchemaType;
 
 export interface FormRegistrationProperties {
-  fields: FieldArrayWithId<DeepPartial<SchemaType>, 'actions', 'id'>[];
+  fields: FieldArrayWithId<DeepPartial<SchemaType>, 'activities', 'id'>[];
   errors: FieldErrors<SchemaType>;
   register: UseFormRegister<SchemaType>;
 }

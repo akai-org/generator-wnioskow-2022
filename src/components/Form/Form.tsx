@@ -33,7 +33,7 @@ export const Form = ({ departments, scienceClubs }: Props) => {
     defaultValues: savedValues,
   });
 
-  const { fields, append, remove } = useFieldArray({ control, name: 'actions' });
+  const { fields, append, remove } = useFieldArray({ control, name: 'activities' });
 
   // Retrieve saved values from local storage
   useEffect(() => {
@@ -74,7 +74,7 @@ export const Form = ({ departments, scienceClubs }: Props) => {
         />
         <PersonalInfo onRemove={remove} fields={fields} errors={errors} register={register} />
 
-        <FormButtons onAddAction={() => append(INITIAL_ACTION_VALUES)} onClearForm={resetForm} />
+        <FormButtons onAddActivity={() => append(INITIAL_ACTION_VALUES)} onClearForm={resetForm} />
       </form>
     </div>
   );

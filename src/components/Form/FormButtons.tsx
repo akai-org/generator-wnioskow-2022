@@ -1,11 +1,11 @@
 interface Props {
-  onAddAction: () => void;
+  onAddActivity: () => void;
   onClearForm: () => void;
 }
 
-export const FormButtons = ({ onClearForm, onAddAction }: Props) => (
+export const FormButtons = ({ onClearForm, onAddActivity }: Props) => (
   <>
-    <button type='button' onClick={onAddAction}>
+    <button type='button' onClick={onAddActivity}>
       Dodaj działanie
     </button>
 

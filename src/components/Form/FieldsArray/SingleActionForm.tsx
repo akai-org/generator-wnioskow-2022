@@ -23,24 +23,24 @@ export const SingleActionForm: FC<Props> = ({ errors, index, register, onRemove 
       <h3>Aktywność #{humanReadableIndex}</h3>
       <GeneralInput
         errorMessage={NO_DESCRIPTION_ERROR}
-        error={errors.actions?.[index]?.description?.message}
+        error={errors.activities?.[index]?.description?.message}
         label='Działania:'
       >
-        <FieldInput isTextArea {...register(`actions.${index}.description`)} />
+        <FieldInput isTextArea {...register(`activities.${index}.description`)} />
       </GeneralInput>
       <GeneralInput
         errorMessage={NO_START_DATE_ERROR}
-        error={errors.actions?.[index]?.startDate?.message}
+        error={errors.activities?.[index]?.startDate?.message}
         label='Data rozpoczęcia:'
       >
-        <FieldInput {...register(`actions.${index}.startDate`)} type='date' />
+        <FieldInput {...register(`activities.${index}.startDate`)} type='date' />
       </GeneralInput>
       <GeneralInput
         errorMessage={NO_END_DATE_ERROR}
-        error={errors.actions?.[index]?.endDate?.message}
+        error={errors.activities?.[index]?.endDate?.message}
         label='Data zakończenia:'
       >
-        <FieldInput {...register(`actions.${index}.endDate`)} type='date' />
+        <FieldInput {...register(`activities.${index}.endDate`)} type='date' />
       </GeneralInput>
       <button type='button' onClick={() => onRemove(index)}>
         Usuń aktywność

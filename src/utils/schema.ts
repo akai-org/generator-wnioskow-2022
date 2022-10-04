@@ -5,7 +5,7 @@ import {
   FULL_NAME_ERROR,
   INDEX_NUMBER_ERROR,
   LEADER_NAME_ERROR,
-  NO_ACTIONS_ERROR,
+  NO_ACTIVITIES_ERROR,
   NO_DESCRIPTION_ERROR,
   NO_END_DATE_ERROR,
   NO_START_DATE_ERROR,
@@ -37,12 +37,12 @@ export const schema = z.object({
       (period) => period === WINTER_PERIOD || period === SUMMER_PERIOD,
       "Semestr musi mieć wartość: 'zimowy' lub 'letni'",
     ),
-  actions: z
+  activities: z
     .object({
       description: z.string().min(1, NO_DESCRIPTION_ERROR),
       startDate: z.string().min(1, NO_START_DATE_ERROR),
       endDate: z.string().min(1, NO_END_DATE_ERROR),
     })
     .array()
-    .min(1, NO_ACTIONS_ERROR),
+    .min(1, NO_ACTIVITIES_ERROR),
 });
