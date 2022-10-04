@@ -44,7 +44,7 @@ export const Form = ({ departments, scienceClubs }: Props) => {
     formState: { errors },
   } = useForm<SchemaType>({
     resolver: zodResolver(schema),
-    mode: 'onBlur',
+    mode: 'onSubmit',
     defaultValues: savedValues,
   });
 
@@ -68,8 +68,19 @@ export const Form = ({ departments, scienceClubs }: Props) => {
     return () => subscription.unsubscribe();
   }, [watch, setSavedValues]);
 
+  useEffect(() => {
+    if (fields.length === 0) {
+      append(INITIAL_ACTION_VALUES);
+    }
+  }, [append, fields.length]);
+
   const onHandleSubmit: SubmitHandler<SchemaType> = async (data) => {
     console.log(data.leaderName);
+  };
+
+  const resetForm = () => {
+    reset();
+    removeSavedValues();
   };
 
   return (
@@ -148,13 +159,7 @@ export const Form = ({ departments, scienceClubs }: Props) => {
           Dodaj działanie
         </button>
 
-        <button
-          type='button'
-          onClick={() => {
-            reset();
-            removeSavedValues();
-          }}
-        >
+        <button type='button' onClick={resetForm}>
           Wyczyść formularz
         </button>
         <button type='submit'>Generuj wniosek</button>
