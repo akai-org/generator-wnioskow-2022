@@ -1,7 +1,7 @@
 import { FieldInput, FieldSelect, GeneralInput } from './Inputs';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import styles from './Form.module.scss';
 import {
   CLUB_PATRON_ERROR,
@@ -9,6 +9,9 @@ import {
   FULL_NAME_ERROR,
   INDEX_NUMBER_ERROR,
   LEADER_NAME_ERROR,
+  NO_DESCRIPTION_ERROR,
+  NO_END_DATE_ERROR,
+  NO_START_DATE_ERROR,
   PERIOD_ERROR,
   ROLE_ERROR,
   SCIENCE_CLUB_ERROR,
@@ -44,41 +47,68 @@ const schema = z.object({
       (period) => period === WINTER_PERIOD || period === SUMMER_PERIOD,
       "Semestr musi mieć wartość: 'zimowy' lub 'letni'",
     ),
+  actions: z
+    .object({
+      description: z.string().min(1, NO_DESCRIPTION_ERROR),
+      startDate: z.string().min(1, NO_START_DATE_ERROR),
+      endDate: z.string().min(1, NO_END_DATE_ERROR),
+    })
+    .array(),
 });
 
-export type SchemaType = z.TypeOf<typeof schema>;
+export type SchemaType = z.infer<typeof schema>;
 
 type InputNames = keyof SchemaType;
 
 const years = ['2021/2022', '2022/2023', '2023/2024', '2024/2025'];
 
 export const Form = ({ departments, scienceClubs }: Props) => {
-  const [savedValues, setSavedValues, removeSavedValues] = useLocalStorage('savedValues', {});
+  const [savedValues, setSavedValues, removeSavedValues] = useLocalStorage<Partial<SchemaType>>(
+    'savedValues',
+    {
+      scienceClub: '',
+      department: '',
+      period: '',
+      clubPatron: '',
+      role: '',
+      leaderName: '',
+      fullName: '',
+      indexNumber: '',
+      actions: [],
+    },
+  );
   const {
     register,
     handleSubmit,
     watch,
     reset,
     setValue,
+    control,
     formState: { errors },
   } = useForm<SchemaType>({
     resolver: zodResolver(schema),
     mode: 'onBlur',
+    defaultValues: savedValues,
   });
+
+  const { fields, append } = useFieldArray({ control, name: 'actions' });
 
   useEffect(() => {
     if (savedValues === undefined) return;
     for (const [name, value] of Object.entries(savedValues)) {
       if (typeof value !== 'string') continue;
+      // fixes infinite rerenders
+      if (value === savedValues[name as InputNames]) continue;
       setValue(name as InputNames, value);
     }
-  }, []);
+  }, [savedValues, setValue]);
 
   useEffect(() => {
-    const subscritption = watch((data) => {
-      setSavedValues(data);
+    const subscription = watch((data) => {
+      // TODO: check why wrong type assumed
+      setSavedValues(data as Partial<SchemaType>);
     });
-    return () => subscritption.unsubscribe();
+    return () => subscription.unsubscribe();
   }, [watch, setSavedValues]);
 
   const onHandleSubmit: SubmitHandler<SchemaType> = async (data) => {
@@ -155,6 +185,28 @@ export const Form = ({ departments, scienceClubs }: Props) => {
             </GeneralInput>
           </div>
         </section>
+        {fields.map((field, index) => (
+          <div key={field.id}>
+            <input {...register(`actions.${index}.description`)} />
+            {errors.actions?.[index]?.description?.message}
+            <input type='date' {...register(`actions.${index}.startDate`)} />
+            {errors.actions?.[index]?.startDate?.message}
+            <input type='date' {...register(`actions.${index}.endDate`)} />
+            {errors.actions?.[index]?.endDate?.message}
+          </div>
+        ))}
+        <button
+          type='button'
+          onClick={() =>
+            append({
+              description: '',
+              endDate: '',
+              startDate: '',
+            })
+          }
+        >
+          Dodaj działanie
+        </button>
 
         <button
           type='button'
