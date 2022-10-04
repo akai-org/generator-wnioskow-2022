@@ -7,15 +7,18 @@ import {
   ROLE_ERROR,
   SUMMER_PERIOD,
   WINTER_PERIOD,
-} from '../../utils';
+} from 'utils';
 import { FieldsArray } from './FieldsArray/FieldsArray';
 import { FC } from 'react';
+import { UseFieldArrayRemove } from 'react-hook-form';
 
-type Props = FormRegistrationProperties;
+interface Props extends FormRegistrationProperties {
+  onRemove: UseFieldArrayRemove;
+}
 
 const years = ['2021/2022', '2022/2023', '2023/2024', '2024/2025'];
 
-export const PersonalInfo: FC<Props> = ({ fields, errors, register }) => {
+export const PersonalInfo: FC<Props> = ({ fields, errors, register, onRemove }) => {
   return (
     <section className={styles.formSection}>
       <h2 className={styles.header}>Dane indywidualne</h2>
@@ -44,7 +47,7 @@ export const PersonalInfo: FC<Props> = ({ fields, errors, register }) => {
           <FieldSelect options={[WINTER_PERIOD, SUMMER_PERIOD]} />
         </GeneralInput>
       </div>
-      <FieldsArray fields={fields} errors={errors} register={register} />
+      <FieldsArray onRemove={onRemove} fields={fields} errors={errors} register={register} />
     </section>
   );
 };

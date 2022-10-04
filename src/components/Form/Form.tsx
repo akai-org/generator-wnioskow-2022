@@ -15,7 +15,7 @@ interface Props {
 }
 
 export const Form = ({ departments, scienceClubs }: Props) => {
-  const [savedValues, setSavedValues, removeSavedValues] = useLocalStorage<Partial<SchemaType>>(
+  const [savedValues, setSavedValues, removeSavedValues] = useLocalStorage<SchemaType>(
     'savedValues',
     INITIAL_INPUT_VALUES,
   );
@@ -33,7 +33,7 @@ export const Form = ({ departments, scienceClubs }: Props) => {
     defaultValues: savedValues,
   });
 
-  const { fields, append } = useFieldArray({ control, name: 'actions' });
+  const { fields, append, remove } = useFieldArray({ control, name: 'actions' });
 
   // Retrieve saved values from local storage
   useEffect(() => {
@@ -49,8 +49,7 @@ export const Form = ({ departments, scienceClubs }: Props) => {
   // Saves changes to local storage
   useEffect(() => {
     const subscription = watch((data) => {
-      // TODO: check why wrong type inferred
-      setSavedValues(data as Partial<SchemaType>);
+      setSavedValues(data as SchemaType);
     });
     return () => subscription.unsubscribe();
   }, [watch, setSavedValues]);
@@ -73,7 +72,7 @@ export const Form = ({ departments, scienceClubs }: Props) => {
           errors={errors}
           register={register}
         />
-        <PersonalInfo fields={fields} errors={errors} register={register} />
+        <PersonalInfo onRemove={remove} fields={fields} errors={errors} register={register} />
 
         <FormButtons onAddAction={() => append(INITIAL_ACTION_VALUES)} onClearForm={resetForm} />
       </form>
