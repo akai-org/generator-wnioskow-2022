@@ -14,20 +14,22 @@ export const NO_ACTIONS_ERROR = 'Akcje są wymagane';
 export const SUMMER_PERIOD = 'letni';
 export const WINTER_PERIOD = 'zimowy';
 
+export const DEFAULT_SELECT_VALUE = 'default';
+
+export const INITIAL_ACTION_VALUES = {
+  description: '',
+  endDate: '',
+  startDate: '',
+};
+
 export const INITIAL_INPUT_VALUES = {
-  scienceClub: '',
-  department: '',
+  scienceClub: DEFAULT_SELECT_VALUE,
+  department: DEFAULT_SELECT_VALUE,
   period: '',
   clubPatron: '',
   role: '',
   leaderName: '',
   fullName: '',
   indexNumber: '',
-  actions: [],
-};
-
-export const INITIAL_ACTION_VALUES = {
-  description: '',
-  endDate: '',
-  startDate: '',
+  actions: [INITIAL_ACTION_VALUES],
 };

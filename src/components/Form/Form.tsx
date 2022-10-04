@@ -68,18 +68,12 @@ export const Form = ({ departments, scienceClubs }: Props) => {
     return () => subscription.unsubscribe();
   }, [watch, setSavedValues]);
 
-  useEffect(() => {
-    if (fields.length === 0) {
-      append(INITIAL_ACTION_VALUES);
-    }
-  }, [append, fields.length]);
-
   const onHandleSubmit: SubmitHandler<SchemaType> = async (data) => {
     console.log(data.leaderName);
   };
 
   const resetForm = () => {
-    reset();
+    reset(INITIAL_INPUT_VALUES);
     removeSavedValues();
   };
 
@@ -100,18 +94,14 @@ export const Form = ({ departments, scienceClubs }: Props) => {
             error={errors.scienceClub?.message}
             label='Nazwa koła naukowego: '
           >
-            <FieldSelect
-              defaultValue='default'
-              {...register('scienceClub')}
-              options={scienceClubs}
-            />
+            <FieldSelect {...register('scienceClub')} options={scienceClubs} />
           </GeneralInput>
           <GeneralInput
             errorMessage={DEPARTMENT_ERROR}
             error={errors.department?.message}
             label='Nazwa wydziału:'
           >
-            <FieldSelect defaultValue='default' {...register('department')} options={departments} />
+            <FieldSelect {...register('department')} options={departments} />
           </GeneralInput>
           <GeneralInput
             errorMessage={CLUB_PATRON_ERROR}
