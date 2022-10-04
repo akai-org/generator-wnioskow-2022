@@ -1,6 +1,7 @@
 import { SUMMER_PERIOD, WINTER_PERIOD } from './consts';
 import { z } from 'zod';
 import { schema } from './schema';
+import { DeepPartial, FieldArrayWithId, FieldErrors, UseFormRegister } from 'react-hook-form';
 
 export type Semester = typeof WINTER_PERIOD | typeof SUMMER_PERIOD;
 
@@ -33,3 +34,9 @@ export interface ApplicationGenerationPostRequest {
 export type SchemaType = z.infer<typeof schema>;
 
 export type InputNames = keyof SchemaType;
+
+export interface FormRegistrationProperties {
+  fields: FieldArrayWithId<DeepPartial<SchemaType>, 'actions', 'id'>[];
+  errors: FieldErrors<SchemaType>;
+  register: UseFormRegister<SchemaType>;
+}

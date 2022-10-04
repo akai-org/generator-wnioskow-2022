@@ -1,0 +1,50 @@
+import styles from './Form.module.scss';
+import { FieldInput, FieldSelect, GeneralInput } from './Inputs';
+import {
+  FormRegistrationProperties,
+  FULL_NAME_ERROR,
+  INDEX_NUMBER_ERROR,
+  ROLE_ERROR,
+  SUMMER_PERIOD,
+  WINTER_PERIOD,
+} from '../../utils';
+import { FieldsArray } from './FieldsArray/FieldsArray';
+import { FC } from 'react';
+
+type Props = FormRegistrationProperties;
+
+const years = ['2021/2022', '2022/2023', '2023/2024', '2024/2025'];
+
+export const PersonalInfo: FC<Props> = ({ fields, errors, register }) => {
+  return (
+    <section className={styles.formSection}>
+      <h2 className={styles.header}>Dane indywidualne</h2>
+      <GeneralInput
+        errorMessage={FULL_NAME_ERROR}
+        error={errors.fullName?.message}
+        label='Imię i nazwisko: '
+      >
+        <FieldInput {...register('fullName')} />
+      </GeneralInput>
+      <GeneralInput
+        errorMessage={INDEX_NUMBER_ERROR}
+        error={errors.indexNumber?.message}
+        label='Indeks'
+      >
+        <FieldInput {...register('indexNumber')} />
+      </GeneralInput>
+      <GeneralInput errorMessage={ROLE_ERROR} error={errors.role?.message} label='Funkcja w kole'>
+        <FieldInput {...register('role')} />
+      </GeneralInput>
+      <div className={styles.selectBox}>
+        <GeneralInput label='Rok:'>
+          <FieldSelect options={years} />
+        </GeneralInput>
+        <GeneralInput label='Semestr:'>
+          <FieldSelect options={[WINTER_PERIOD, SUMMER_PERIOD]} />
+        </GeneralInput>
+      </div>
+      <FieldsArray fields={fields} errors={errors} register={register} />
+    </section>
+  );
+};
