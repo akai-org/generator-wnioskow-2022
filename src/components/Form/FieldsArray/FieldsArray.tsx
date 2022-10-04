@@ -1,7 +1,8 @@
-import { FormRegistrationProperties } from 'utils';
+import { FormRegistrationProperties, NO_ACTIVITIES_ERROR } from 'utils';
 import { FC } from 'react';
-import { SingleActionForm } from './SingleActionForm';
+import { SingleActivityForm } from './SingleActivityForm';
 import { UseFieldArrayRemove } from 'react-hook-form';
+import { ValidationError } from '../../UI/ValidationError/ValidationError';
 
 interface Props extends FormRegistrationProperties {
   onRemove: UseFieldArrayRemove;
@@ -11,7 +12,7 @@ export const FieldsArray: FC<Props> = ({ fields, errors, register, onRemove }) =
   return (
     <section>
       {fields.map((field, index) => (
-        <SingleActionForm
+        <SingleActivityForm
           onRemove={onRemove}
           key={field.id}
           errors={errors}
@@ -19,6 +20,7 @@ export const FieldsArray: FC<Props> = ({ fields, errors, register, onRemove }) =
           register={register}
         />
       ))}
+      <ValidationError error={errors.activities?.message} errorMessage={NO_ACTIVITIES_ERROR} />
     </section>
   );
 };

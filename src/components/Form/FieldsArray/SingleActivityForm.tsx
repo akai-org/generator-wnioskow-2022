@@ -4,9 +4,11 @@ import {
   NO_END_DATE_ERROR,
   NO_START_DATE_ERROR,
   SchemaType,
+  WRONG_DATES_ERROR,
 } from '../../../utils';
 import { FieldErrors, UseFieldArrayRemove, UseFormRegister } from 'react-hook-form';
-import { FC } from 'react';
+import React, { FC } from 'react';
+import { ValidationError } from '../../UI/ValidationError/ValidationError';
 
 interface Props {
   errors: FieldErrors<SchemaType>;
@@ -15,7 +17,7 @@ interface Props {
   onRemove: UseFieldArrayRemove;
 }
 
-export const SingleActionForm: FC<Props> = ({ errors, index, register, onRemove }) => {
+export const SingleActivityForm: FC<Props> = ({ errors, index, register, onRemove }) => {
   const humanReadableIndex = index + 1;
 
   return (
@@ -42,6 +44,10 @@ export const SingleActionForm: FC<Props> = ({ errors, index, register, onRemove 
       >
         <FieldInput {...register(`activities.${index}.endDate`)} type='date' />
       </GeneralInput>
+      <ValidationError
+        errorMessage={WRONG_DATES_ERROR}
+        error={errors.activities?.[index]?.message}
+      />
       <button type='button' onClick={() => onRemove(index)}>
         Usuń aktywność
       </button>
