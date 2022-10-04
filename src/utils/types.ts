@@ -1,4 +1,6 @@
 import { SUMMER_PERIOD, WINTER_PERIOD } from './consts';
+import { z } from 'zod';
+import { schema } from './schema';
 
 export type Semester = typeof WINTER_PERIOD | typeof SUMMER_PERIOD;
 
@@ -27,3 +29,7 @@ export interface ApplicationGenerationPostRequest {
   student_album_number: number;
   student_achievements: StudentAchievementInRequest[];
 }
+
+export type SchemaType = z.infer<typeof schema>;
+
+export type InputNames = keyof SchemaType;

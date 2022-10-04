@@ -1,5 +1,4 @@
 import { FieldInput, FieldSelect, GeneralInput } from './Inputs';
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import styles from './Form.module.scss';
@@ -8,74 +7,32 @@ import {
   DEPARTMENT_ERROR,
   FULL_NAME_ERROR,
   INDEX_NUMBER_ERROR,
+  INITIAL_ACTION_VALUES,
+  INITIAL_INPUT_VALUES,
+  InputNames,
   LEADER_NAME_ERROR,
-  NO_DESCRIPTION_ERROR,
-  NO_END_DATE_ERROR,
-  NO_START_DATE_ERROR,
-  PERIOD_ERROR,
   ROLE_ERROR,
+  SchemaType,
   SCIENCE_CLUB_ERROR,
   SUMMER_PERIOD,
   WINTER_PERIOD,
 } from 'utils';
 import { useEffect } from 'react';
 import { useLocalStorage } from 'react-use';
+import { schema } from '../../utils/schema';
+import { FieldsArray } from './FieldsArray/FieldsArray';
 
 interface Props {
   departments: string[];
   scienceClubs: string[];
 }
 
-const schema = z.object({
-  leaderName: z.string().min(1, LEADER_NAME_ERROR),
-  scienceClub: z
-    .string()
-    .min(1, SCIENCE_CLUB_ERROR)
-    .refine((value) => value !== 'default', { message: SCIENCE_CLUB_ERROR }),
-  department: z
-    .string()
-    .min(1, DEPARTMENT_ERROR)
-    .refine((value) => value !== 'default', { message: DEPARTMENT_ERROR }),
-  clubPatron: z.string().min(1, CLUB_PATRON_ERROR),
-  fullName: z.string().min(1, FULL_NAME_ERROR),
-  indexNumber: z.string().min(1, INDEX_NUMBER_ERROR),
-  role: z.string().min(1, ROLE_ERROR),
-  period: z
-    .string()
-    .min(1, PERIOD_ERROR)
-    .refine(
-      (period) => period === WINTER_PERIOD || period === SUMMER_PERIOD,
-      "Semestr musi mieć wartość: 'zimowy' lub 'letni'",
-    ),
-  actions: z
-    .object({
-      description: z.string().min(1, NO_DESCRIPTION_ERROR),
-      startDate: z.string().min(1, NO_START_DATE_ERROR),
-      endDate: z.string().min(1, NO_END_DATE_ERROR),
-    })
-    .array(),
-});
-
-export type SchemaType = z.infer<typeof schema>;
-
-type InputNames = keyof SchemaType;
-
 const years = ['2021/2022', '2022/2023', '2023/2024', '2024/2025'];
 
 export const Form = ({ departments, scienceClubs }: Props) => {
   const [savedValues, setSavedValues, removeSavedValues] = useLocalStorage<Partial<SchemaType>>(
     'savedValues',
-    {
-      scienceClub: '',
-      department: '',
-      period: '',
-      clubPatron: '',
-      role: '',
-      leaderName: '',
-      fullName: '',
-      indexNumber: '',
-      actions: [],
-    },
+    INITIAL_INPUT_VALUES,
   );
   const {
     register,
@@ -184,27 +141,10 @@ export const Form = ({ departments, scienceClubs }: Props) => {
               <FieldSelect options={[WINTER_PERIOD, SUMMER_PERIOD]} />
             </GeneralInput>
           </div>
+          <FieldsArray fields={fields} errors={errors} register={register} />
         </section>
-        {fields.map((field, index) => (
-          <div key={field.id}>
-            <input {...register(`actions.${index}.description`)} />
-            {errors.actions?.[index]?.description?.message}
-            <input type='date' {...register(`actions.${index}.startDate`)} />
-            {errors.actions?.[index]?.startDate?.message}
-            <input type='date' {...register(`actions.${index}.endDate`)} />
-            {errors.actions?.[index]?.endDate?.message}
-          </div>
-        ))}
-        <button
-          type='button'
-          onClick={() =>
-            append({
-              description: '',
-              endDate: '',
-              startDate: '',
-            })
-          }
-        >
+
+        <button type='button' onClick={() => append(INITIAL_ACTION_VALUES)}>
           Dodaj działanie
         </button>
 

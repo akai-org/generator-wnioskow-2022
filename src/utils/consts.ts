@@ -9,6 +9,25 @@ export const PERIOD_ERROR = 'Typ semestru jest wymagany';
 export const NO_DESCRIPTION_ERROR = 'Opis jest wymagany';
 export const NO_START_DATE_ERROR = 'Data rozpoczęcia jest wymagana';
 export const NO_END_DATE_ERROR = 'Data zakończenia jest wymagana';
+export const NO_ACTIONS_ERROR = 'Akcje są wymagane';
 
 export const SUMMER_PERIOD = 'letni';
 export const WINTER_PERIOD = 'zimowy';
+
+export const INITIAL_INPUT_VALUES = {
+  scienceClub: '',
+  department: '',
+  period: '',
+  clubPatron: '',
+  role: '',
+  leaderName: '',
+  fullName: '',
+  indexNumber: '',
+  actions: [],
+};
+
+export const INITIAL_ACTION_VALUES = {
+  description: '',
+  endDate: '',
+  startDate: '',
+};

@@ -19,7 +19,7 @@ export const GeneralInput: FC<GeneralInputComponentProps> = ({
       <label>{label}</label>
       <div className={styles.inputBox}>{children}</div>
       <p className={[styles.error, error ? styles.errorShown : styles.errorHidden].join(' ')}>
-        {errorMessage}
+        {error ?? errorMessage}
       </p>
     </div>
   );
