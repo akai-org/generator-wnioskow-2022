@@ -26,7 +26,11 @@ function App() {
 
   return (
     <div className='App'>
+      <header>
+        <h1>Generator zaświadczeń o członkowstwie</h1>
+      </header>
       {isDataReady && <Form departments={departments} scienceClubs={scienceClubs} />}
+      <footer></footer>
     </div>
   );
 }
