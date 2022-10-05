@@ -3,6 +3,7 @@ import { FC } from 'react';
 import { SingleActivityForm } from './SingleActivityForm';
 import { UseFieldArrayRemove } from 'react-hook-form';
 import { ValidationError } from '../../UI/ValidationError/ValidationError';
+import styles from '../Form.module.scss';
 
 interface Props extends FormRegistrationProperties {
   onRemove: UseFieldArrayRemove;
@@ -10,7 +11,7 @@ interface Props extends FormRegistrationProperties {
 
 export const FieldsArray: FC<Props> = ({ fields, errors, register, onRemove }) => {
   return (
-    <section>
+    <section className={styles.formSection}>
       {fields.map((field, index) => (
         <SingleActivityForm
           onRemove={onRemove}

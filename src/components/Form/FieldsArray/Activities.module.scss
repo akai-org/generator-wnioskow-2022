@@ -1,0 +1,16 @@
+.singleActivity {
+  display: grid;
+  grid-template-columns: auto 300px;
+}
+
+.box{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.innerBox {
+  gap: 10px;
+  display: flex;
+}

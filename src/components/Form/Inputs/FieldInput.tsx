@@ -9,6 +9,7 @@ export const FieldInput = forwardRef<HTMLInputElement | HTMLTextAreaElement, Pro
   function FieldInput({ isTextArea, ...rest }, ref) {
     return isTextArea ? (
       <textarea
+        className={styles.genericInput}
         ref={ref as ForwardedRef<HTMLTextAreaElement>}
         {...(rest as HTMLProps<HTMLTextAreaElement>)}
       ></textarea>

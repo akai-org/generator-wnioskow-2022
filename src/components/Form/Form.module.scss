@@ -42,6 +42,27 @@ input {
   }
 }
 
+input[type="date"] {
+  width:auto;
+}
+
+textarea {
+  width: 100%;
+  min-height: 75px;
+  height: fit-content;
+  resize: none;
+
+  &:hover {
+    border-color: $border-hover;
+  }
+
+  &:focus {
+    border-radius: $border-radius;
+    outline: none;
+    border-color: $border-focus;
+  }
+}
+
 select {
   width: fit-content;
 
@@ -70,12 +91,17 @@ button {
 .field {
   display: flex;
   flex-direction: column;
-  margin-bottom: 10px;
 }
 
 form {
   display: flex;
   flex-direction: column;
+}
+
+.formSection {
+  display: flex;
+  flex-direction: column;
+  gap:10px
 }
 
 .formButtons {
@@ -90,7 +116,6 @@ hr {
 label {
   font-size: 0.9em;
   font-weight: 700;
-  flex: 1.5em;
 }
 
 .header {
