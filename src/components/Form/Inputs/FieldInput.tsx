@@ -17,7 +17,7 @@ export const FieldInput = forwardRef<HTMLInputElement | HTMLTextAreaElement, Pro
         ref={ref as ForwardedRef<HTMLInputElement>}
         {...(rest as HTMLProps<HTMLInputElement>)}
         className={styles.genericInput}
-        type='text'
+        type={rest.type ?? 'text'}
       ></input>
     );
   },

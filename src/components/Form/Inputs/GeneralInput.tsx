@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import styles from '../Form.module.scss';
+import { ValidationError } from '../../UI/ValidationError/ValidationError';
 
 interface GeneralInputComponentProps {
   children: JSX.Element;
@@ -18,9 +19,7 @@ export const GeneralInput: FC<GeneralInputComponentProps> = ({
     <div className={styles.field}>
       <label>{label}</label>
       <div className={styles.inputBox}>{children}</div>
-      <p className={[styles.error, error ? styles.errorShown : styles.errorHidden].join(' ')}>
-        {errorMessage}
-      </p>
+      <ValidationError error={error} errorMessage={errorMessage} />
     </div>
   );
 };

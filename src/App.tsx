@@ -22,9 +22,11 @@ function App() {
     getScienceClubs().catch((err) => console.log(err));
   }, []);
 
+  const isDataReady = scienceClubs.length !== 0 && departments.length !== 0;
+
   return (
     <div className='App'>
-      <Form departments={departments} scienceClubs={scienceClubs} />
+      {isDataReady && <Form departments={departments} scienceClubs={scienceClubs} />}
     </div>
   );
 }
