@@ -1,9 +1,12 @@
 .error {
   color: red;
+  font-size: 0.9em;
+  margin: 8px 8px;
 }
 
 .errorHidden {
-  visibility: hidden;
+  display: none;
+  visibility: visible;
 }
 
 .errorShown {
