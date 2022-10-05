@@ -22,20 +22,22 @@ export const PersonalInfo: FC<Props> = ({ fields, errors, register, onRemove }) 
   return (
     <section className={styles.formSection}>
       <h2 className={styles.header}>Dane indywidualne</h2>
-      <GeneralInput
-        errorMessage={FULL_NAME_ERROR}
-        error={errors.fullName?.message}
-        label='Imię i nazwisko: '
-      >
-        <FieldInput {...register('fullName')} />
-      </GeneralInput>
-      <GeneralInput
-        errorMessage={INDEX_NUMBER_ERROR}
-        error={errors.indexNumber?.message}
-        label='Indeks'
-      >
-        <FieldInput {...register('indexNumber')} />
-      </GeneralInput>
+      <div className={styles.nameAndIdBox}>
+        <GeneralInput
+          errorMessage={FULL_NAME_ERROR}
+          error={errors.fullName?.message}
+          label='Imię i nazwisko: '
+        >
+          <FieldInput {...register('fullName')} />
+        </GeneralInput>
+        <GeneralInput
+          errorMessage={INDEX_NUMBER_ERROR}
+          error={errors.indexNumber?.message}
+          label='Indeks'
+        >
+          <FieldInput {...register('indexNumber')} />
+        </GeneralInput>
+      </div>
       <GeneralInput errorMessage={ROLE_ERROR} error={errors.role?.message} label='Funkcja w kole'>
         <FieldInput {...register('role')} />
       </GeneralInput>
