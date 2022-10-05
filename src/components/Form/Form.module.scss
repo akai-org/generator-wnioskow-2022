@@ -55,6 +55,18 @@ select {
   gap: 10px;
 }
 
+button {
+  width: 170px;
+  &:hover {
+    border-color: $border-hover;
+  }
+
+  &:focus {
+    border-radius: $border-radius;
+    border-color: $border-focus;
+  }
+}
+
 .field {
   display: flex;
   flex-direction: column;
@@ -64,6 +76,11 @@ select {
 form {
   display: flex;
   flex-direction: column;
+}
+
+.formButtons {
+  display: flex;
+  gap: 10px;
 }
 
 hr {

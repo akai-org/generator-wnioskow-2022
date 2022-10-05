@@ -6,6 +6,7 @@ import {
   SchemaType,
   WRONG_DATES_ERROR,
 } from '../../../utils';
+import { Button } from '../Inputs/Button';
 import { FieldErrors, UseFieldArrayRemove, UseFormRegister } from 'react-hook-form';
 import React, { FC } from 'react';
 import { ValidationError } from '../../UI/ValidationError/ValidationError';
@@ -48,9 +49,7 @@ export const SingleActivityForm: FC<Props> = ({ errors, index, register, onRemov
         errorMessage={WRONG_DATES_ERROR}
         error={errors.activities?.[index]?.message}
       />
-      <button type='button' onClick={() => onRemove(index)}>
-        Usuń aktywność
-      </button>
+      <Button onClick={() => onRemove(index)}>Usuń aktywność</Button>
     </div>
   );
 };
