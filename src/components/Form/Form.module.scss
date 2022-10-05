@@ -82,8 +82,18 @@ button {
     border-color: $border-hover;
   }
 
-  &:focus {
-    border-radius: $border-radius;
+  &:active{
+    background-color: #f6f6f6;
+    border-color: $border-focus;
+  }
+}
+
+.darkButton {
+  background-color: #eeeeee;
+  border-color: #cccccc;
+
+  &:active{
+    background-color: #e6e6e6;
     border-color: $border-focus;
   }
 }
@@ -95,6 +105,7 @@ button {
 
 form {
   display: flex;
+  gap: 20px;
   flex-direction: column;
 }
 
@@ -105,8 +116,15 @@ form {
 }
 
 .formButtons {
+  width: 100%;
   display: flex;
+  align-content: space-between;
   gap: 10px;
+
+  button {
+    flex-shrink: 0;
+  }
+
 }
 
 hr {

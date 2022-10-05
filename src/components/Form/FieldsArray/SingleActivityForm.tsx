@@ -50,7 +50,9 @@ export const SingleActivityForm: FC<Props> = ({ errors, index, register, onRemov
               <FieldInput {...register(`activities.${index}.endDate`)} type='date' />
             </GeneralInput>
           </div>
-          <Button onClick={() => onRemove(index)}>Usuń aktywność</Button>
+          <Button onClick={() => onRemove(index)} isDark>
+            Usuń aktywność
+          </Button>
         </div>
       </div>
       <ValidationError

@@ -8,9 +8,13 @@ interface Props {
 export const FormButtons = ({ onClearForm, onAddActivity }: Props) => {
   return (
     <div className={styles.formButtons}>
+      <div className={styles.formButtons}>
+        <Button isSubmit>Generuj wniosek</Button>
+        <Button onClick={onClearForm} isDark>
+          Wyczyść formularz
+        </Button>
+      </div>
       <Button onClick={onAddActivity}>Dodaj działanie</Button>
-      <Button onClick={onClearForm}>Wyczyść formularz</Button>
-      <Button isSubmit>Generuj wniosek</Button>
     </div>
   );
 };
